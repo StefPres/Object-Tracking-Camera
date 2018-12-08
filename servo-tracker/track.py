@@ -13,7 +13,16 @@ import cv2
 import imutils
 import time
 import serial
-arduino = serial.Serial('/dev/ttyACM0', 9600)
+
+arduino = serial.Serial('/dev/ttyACM0', 115200)
+screenx = 480
+screeny = 360
+obsize = 8
+loopstart = 0
+loopend = 0
+horiz = ""
+vert = ""
+
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-v", "--video",
@@ -29,7 +38,6 @@ greenUpper = (64, 255, 255)
 
 # initialize the list of tracked points, the frame counter,
 # and the coordinate deltas
-pts = deque(maxlen=args["buffer"])
 counter = 0
 (dX, dY) = (0, 0)
 direction = ""
@@ -40,9 +48,9 @@ if not args.get("video", False):
     print "grabbing video"
     #vs = VideoStream(src=0).start()
     camera = PiCamera()
-    camera.resolution = (640, 480)
+    camera.resolution = (screenx, screeny)
     camera.framerate = 32
-    rawCapture = PiRGBArray(camera, size=(640, 480))
+    rawCapture = PiRGBArray(camera, size=(screenx, screeny))
 
 # otherwise, grab a reference to the video file
 else:
@@ -62,6 +70,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     if frame is None:
         print "broke while loop"
         break
+
 
     # resize the frame, blur it, and convert it to the HSV
     # color space
@@ -94,88 +103,32 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
 
         # only proceed if the radius meets a minimum size
-        if radius > 10:
+        if radius > obsize:
             # draw the circle and centroid on the frame,
-            # then update the list of tracked points
-            cv2.circle(frame, (int(x), int(y)), int(radius),
-                (0, 255, 255), 2)
-            cv2.circle(frame, center, 5, (0, 0, 255), -1)
-            pts.appendleft(center)
+            # then update the list of tracked poi
             centerx = int(x)
             centery = int(y)
-            if(centerx > 400):
+            if(centerx > (screenx*2/3)):
                 print("right")
-                arduino.write("right")
-            elif((centerx >= 200) and (centerx <= 400)):
+                horiz = "right"
+            elif((centerx >= (screenx/3)) and (centerx <= (screenx*2/3))):
                 print("horizontal center")
-                arduino.write("center")
+                horiz = "center"
             else:
                 print("left")
-                arduino.write("left")
+                horiz = "left"
 
-            arduino.write(",")
-
-
-            if(centery > 250):
+            if(centery > (screeny*2/3)):
                 print("down")
-                arduino.write("down")
-            elif((centery >= 150) and (centery <= 250)):
+                vert = "down"
+            elif((centery >= (screeny/3)) and (centery <= (screeny*2/3))):
                 print("center")
-                arduino.write("center")
+                vert = "center"
             else:
                 print('up')
-                arduino.write("up")
-            arduino.write("\n")
+                vert = "up"
+            arduino.write(horiz + "," + vert + "\n")
 
-
-    # loop over the set of tracked points
-    for i in np.arange(1, len(pts)):
-        # if either of the tracked points are None, ignore
-        # them
-        if pts[i - 1] is None or pts[i] is None:
-            continue
-
-        # check to see if enough points have been accumulated in
-        # the buffer
-        if (len(pts) >= 10): 
-            if counter >= 10 and i == 1 and pts[-10] is not None:
-                # compute the difference between the x and y
-                # coordinates and re-initialize the direction
-                # text variables
-                dX = pts[-10][0] - pts[i][0]
-                dY = pts[-10][1] - pts[i][1]
-                (dirX, dirY) = ("", "")
-
-                # ensure there is significant movement in the
-                # x-direction
-                if np.abs(dX) > 20:
-                    dirX = "East" if np.sign(dX) == 1 else "West"
-
-                # ensure there is significant movement in the
-                # y-direction
-                if np.abs(dY) > 20:
-                    dirY = "North" if np.sign(dY) == 1 else "South"
-
-                # handle when both directions are non-empty
-                if dirX != "" and dirY != "":
-                    direction = "{}-{}".format(dirY, dirX)
-
-                # otherwise, only one direction is non-empty
-                else:
-                    direction = dirX if dirX != "" else dirY
-
-        # otherwise, compute the thickness of the line and
-        # draw the connecting lines
-        thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
-        cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
-
-    # show the movement deltas and the direction of movement on
-    # the frame
-    cv2.putText(frame, direction, (10, 30), cv2.FONT_HERSHEY_SIMPLEX,
-        0.65, (0, 0, 255), 3)
-    cv2.putText(frame, "dx: {}, dy: {}".format(dX, dY),
-        (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX,
-        0.35, (0, 0, 255), 1)
 
     # show the frame to our screen and increment the frame counter
     #cv2.imshow("Frame", frame)
