@@ -6,7 +6,7 @@ String onByte;
 String dir;
 String ver;
 int pos = 90;
-int pis = 15;
+int pis = 25;
 
 void setup() {
  
@@ -14,7 +14,7 @@ void setup() {
   moservo.attach(10);
   myservo.write(pos);    //initialize servos
   moservo.write(pis);
-  Serial.begin(9600);
+  Serial.begin(115200);
 }
 
 void loop()
@@ -39,9 +39,9 @@ void loop()
     }
     myservo.write(pos);     // move servo
     moservo.write(pis);
-    Serial.print("Servo1 in position: ");  
-    Serial.println(pos);
-    Serial.print("Servo2 in position: ");  
-    Serial.println(pis);
+    //Serial.print("Servo1 in position: ");  
+    //Serial.println(pos);
+    //Serial.print("Servo2 in position: ");  
+    //Serial.println(pis);
     }
 }
