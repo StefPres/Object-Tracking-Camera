@@ -15,11 +15,6 @@ import time
 import serial
 
 arduino = serial.Serial('/dev/ttyACM0', 115200)
-screenx = 480
-screeny = 360
-obsize = 8
-loopstart = 0
-loopend = 0
 horiz = ""
 vert = ""
 
@@ -29,6 +24,10 @@ ap.add_argument("-v", "--video",
     help="path to the (optional) video file")
 ap.add_argument("-b", "--buffer", type=int, default=32,
     help="max buffer size")
+ap.add_argument("-f", "--fps", type=int, default=32, help="Framerate")
+ap.add_argument("-x", "--horizontal", type=int, default=480, help="Horizontal screen size")
+ap.add_argument("-y", "--vertical", type=int, default=360, help="Vertical screen size")
+ap.add_argument("-s", "--size", type=int, default=8, help="Object Size")
 args = vars(ap.parse_args())
 
 # define the lower and upper boundaries of the "green"
@@ -41,6 +40,8 @@ greenUpper = (64, 255, 255)
 counter = 0
 (dX, dY) = (0, 0)
 direction = ""
+screenx = args["horizontal"]
+screeny = args["vertical"]
 
 # if a video path was not supplied, grab the reference
 # to the webcam
@@ -49,7 +50,7 @@ if not args.get("video", False):
     #vs = VideoStream(src=0).start()
     camera = PiCamera()
     camera.resolution = (screenx, screeny)
-    camera.framerate = 32
+    camera.framerate = args["fps"]
     rawCapture = PiRGBArray(camera, size=(screenx, screeny))
 
 # otherwise, grab a reference to the video file
@@ -103,7 +104,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
 
         # only proceed if the radius meets a minimum size
-        if radius > obsize:
+        if radius > args["size"]:
             # draw the circle and centroid on the frame,
             # then update the list of tracked poi
             centerx = int(x)
