@@ -1,6 +1,6 @@
 # Object-Tracking-Camera
 
-The Object-Tracking-Camera takes inputs from a camera mounted on a set of servos and uses the information to position the camera so that 
+The <code>Object-Tracking-Camera</code> takes inputs from a camera mounted on a set of servos and uses the information to position the camera so that 
 the object it is tracking remains in the center of the frame. The servos are controlled by an Arduino microcontroller, which in turn 
 receives inputs from a Raspberry Pi that processes the video feed from the camera. 
 
