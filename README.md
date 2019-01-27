@@ -64,3 +64,14 @@ Under optimum conditions (even lighting, clean background), the camera had no is
 the objects. But under less-than-optimal conditions (uneven, excessively bright, or low lighting),
 the camera would sometimes not detect the object, even when the object in question was only a
 foot in front of it.
+
+### Planned Features
+In the next semester, I would like to further develop the image processing capability of my programming, incorporating some or all of the listed features:
+
+If no object is found for 5 seconds, pan area to look for objects. If no object is found, return to the rest position
+
+If an object is found, turn on LED. If the object is lost and the camera is panning, LED blinks. When panning stops, turn the LED off.
+
+Modify code to be able to read QR codes instead of detecting color. Color detection is heavily dependent on lighting, but QR codes can be read in almost any different lighting. The camera will be able to read a QR code and print its message/link and stop processes for people to read/copy message
+
+In addition, I plan to design an autonomous vehicle (either line-following or obstacle-avoidance). with the camera mounted on top of the vehicle to track objects as the vehicle is moving, which will serve as a prototype for a self-driving vehicle.
