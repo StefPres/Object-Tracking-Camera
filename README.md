@@ -5,6 +5,7 @@ the object it is tracking remains in the center of the frame. The servos are con
 receives inputs from a Raspberry Pi that processes the video feed from the camera. 
 
 The Python code is a modified version of code from the following website:
+
 https://www.pyimagesearch.com/2015/09/14/ball-tracking-with-opencv/
 
 ![alt text](https://raw.githubusercontent.com/StefPres/Object-Tracking-Camera/master/Images/Ard_Rasp_Camera_bb.png)
