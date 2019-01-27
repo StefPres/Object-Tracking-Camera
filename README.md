@@ -41,10 +41,10 @@ b. Set new servo position based on message
 
 ### Argparse Arguments:
 
-  *-x Horizontal Screen Size (default 480px) 
-  *-y Vertical Screen Size (default 360px) 
-  *-s Minimum Object Size (default 10px)
-  *-f Camera Framerate (default 32 frames/sec)
+##### -x Horizontal Screen Size (default 480px)
+##### -y Vertical Screen Size (default 360px)
+##### -s Minimum Object Size (default 10px)
+##### -f Camera Framerate (default 32 frames/sec)
   
 These arguments can be applied when the software is run to change the parameters that the
 software uses to detect objects.
