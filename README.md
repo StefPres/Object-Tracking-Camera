@@ -8,6 +8,8 @@ The Python code is a modified version of code from the following website:
 
 https://www.pyimagesearch.com/2015/09/14/ball-tracking-with-opencv/
 
+<img src="https://raw.githubusercontent.com/StefPres/Object-Tracking-Camera/master/Images/IMG_2152.JPG" width="250"> <img src="https://raw.githubusercontent.com/StefPres/Object-Tracking-Camera/master/Images/IMG_2153.JPG" width="250"> <img src="https://raw.githubusercontent.com/StefPres/Object-Tracking-Camera/master/Images/IMG_2154.JPG" width="250">
+
 ### Fritzing Schematic
 ![alt text](https://raw.githubusercontent.com/StefPres/Object-Tracking-Camera/master/Images/Ard_Rasp_Camera_bb.png)
 
