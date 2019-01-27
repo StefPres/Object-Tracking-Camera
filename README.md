@@ -40,15 +40,12 @@ a. Read message from Raspberry Pi using Serial Monitor
 b. Set new servo position based on message
 
 ### Argparse Arguments:
-<code>
-   -x Horizontal Screen Size (default 480px)
- </code><code> 
-   -y Vertical Screen Size (default 360px)
-   </code><code>
-   -s Minimum Object Size (default 10px)
-   </code><code>
-   -f Camera Framerate (default 32 frames/sec)
-</code>
+
+  *-x Horizontal Screen Size (default 480px) 
+  *-y Vertical Screen Size (default 360px) 
+  *-s Minimum Object Size (default 10px)
+  *-f Camera Framerate (default 32 frames/sec)
+  
 These arguments can be applied when the software is run to change the parameters that the
 software uses to detect objects.
 The two screen size arguments (-x, -y) adjust the size of the screen in pixels. Smaller screen
