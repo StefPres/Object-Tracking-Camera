@@ -40,21 +40,20 @@ a. Read message from Raspberry Pi using Serial Monitor
 b. Set new servo position based on message
 
 ### Argparse Arguments:
+These arguments can be applied when the software is run to change the parameters that the
+software uses to detect objects.
 
 ##### -x Horizontal Screen Size (default 480px)
 ##### -y Vertical Screen Size (default 360px)
-##### -s Minimum Object Size (default 10px)
-##### -f Camera Framerate (default 32 frames/sec)
-  
-These arguments can be applied when the software is run to change the parameters that the
-software uses to detect objects.
 The two screen size arguments (-x, -y) adjust the size of the screen in pixels. Smaller screen
 sizes run faster but have less precision in detecting objects. I found that resolutions above
 640x480 slowed down the object detection considerably and thus were not useful for this
 application
+##### -s Minimum Object Size (default 10px)
 The object size argument (-s) sets the smallest possible radius in pixels an object needs to be
 before it will be detected. Smaller sizes are more likely to detect objects but are also more likely
 to detect background clutter as objects and thus introduce more noise.
+##### -f Camera Framerate (default 32 frames/sec)
 The camera framerate argument (-f) sets how fast the camera sends images to the computer in
 frames per second. Higher framerates lead to greater responsiveness but take up more
 computer resources. Above a certain framerate (in the case of the pi, 32), the increased
@@ -65,13 +64,3 @@ Under optimum conditions (even lighting, clean background), the camera had no is
 the objects. But under less-than-optimal conditions (uneven, excessively bright, or low lighting),
 the camera would sometimes not detect the object, even when the object in question was only a
 foot in front of it.
-Color based object tracking works best in a controlled environment simply due to the number of
-things that can affect the color that the camera “sees”. A situation where this would work well is
-in a factory. In a factory, you can control lighting, the size of the objects you are trying to
-monitor, and the placement of the camera. A camera could be placed above a conveyor belt to
-monitor the size and/or color of different objects passing under it, and count/sort the objects.
-Given enough computing power, color-based object tracking could work in even the most
-uncontrolled environments with the computers being able to clean up any clutter that shows up,
-but since a lot of applications limit the size, and by extension the power, of a computer,
-color-based object tracking is not practical for applications in uncontrolled environments such as
-outdoors or in a cluttered environment.
